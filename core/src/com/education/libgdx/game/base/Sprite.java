@@ -38,7 +38,7 @@ public class Sprite extends Rect {
         return false;
     }
 
-    public boolean touchDragged(Vector2 touch, int pointer, int button) {
+    public boolean touchDragged(Vector2 touch, int pointer) {
         return false;
     }
 
