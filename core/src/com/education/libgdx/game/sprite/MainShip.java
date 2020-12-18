@@ -23,6 +23,9 @@ public class MainShip extends Sprite {
     private final Vector2 v;
     private final Vector2 v0;
 
+    private final float RATE_OF_FIRE = 0.1f;
+    private float waitingForShooting = 1;
+
     private Rect worldBounds;
 
     private boolean pressedLeft;
@@ -50,6 +53,11 @@ public class MainShip extends Sprite {
     @Override
     public void update(float delta) {
         pos.mulAdd(v, delta);
+        waitingForShooting += delta;
+        if (waitingForShooting >= RATE_OF_FIRE) {
+            shoot();
+            waitingForShooting = 0;
+        }
         if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
             stop();
@@ -71,9 +79,6 @@ public class MainShip extends Sprite {
             case Input.Keys.A:
                 pressedLeft = true;
                 moveLeft();
-                break;
-            case Input.Keys.SPACE:
-                shoot();
                 break;
         }
         return false;
