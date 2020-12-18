@@ -4,22 +4,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.education.libgdx.game.math.Rect;
+import com.education.libgdx.game.utils.Regions;
 
 public class Sprite extends Rect {
+
     private float angle;
     private float scale = 1;
-    private TextureRegion[] regions;
+    protected TextureRegion[] regions;
     private int frame;
+    private boolean destroyed;
 
-    public Sprite(TextureRegion region1, int frame) {
-        regions = new TextureRegion[2];
-        regions[0] = new TextureRegion(region1, 0, 0, region1.getRegionWidth() / 2, region1.getRegionHeight());
-        this.frame = frame;
+    public Sprite() {
     }
 
     public Sprite(TextureRegion region) {
         regions = new TextureRegion[1];
         regions[0] = region;
+    }
+
+    public Sprite(TextureRegion region, int rows, int cols, int frames) {
+        regions = Regions.split(region, rows, cols, frames);
     }
 
     public void setHeightProportion(float height) {
@@ -36,14 +40,6 @@ public class Sprite extends Rect {
 
     }
 
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         return false;
     }
@@ -52,7 +48,7 @@ public class Sprite extends Rect {
         return false;
     }
 
-    public boolean touchDragged(Vector2 touch, int pointer) {
+    public boolean touchDragged(Vector2 touch, int pointer, int button) {
         return false;
     }
 
@@ -81,6 +77,18 @@ public class Sprite extends Rect {
 
     public void setScale(float scale) {
         this.scale = scale;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void destroy() {
+        destroyed = true;
+    }
+
+    public void flushDestroy() {
+        destroyed = false;
     }
 
 }
