@@ -1,12 +1,14 @@
 package com.education.libgdx.game.sprite;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.education.libgdx.game.base.Sprite;
 import com.education.libgdx.game.math.Rect;
 
 public class Bullet extends Sprite {
-
+    private static Sound soundLaser = Gdx.audio.newSound(Gdx.files.internal("sounds\\laser.wav"));
     private Rect worldBounds;
     private final Vector2 v;
     private int damage;
@@ -41,6 +43,10 @@ public class Bullet extends Sprite {
         if (isOutside(worldBounds)) {
             destroy();
         }
+    }
+
+    public void playSound() {
+        soundLaser.play(0.1f);
     }
 
     public int getDamage() {

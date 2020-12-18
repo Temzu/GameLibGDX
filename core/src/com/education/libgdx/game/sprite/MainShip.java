@@ -23,7 +23,7 @@ public class MainShip extends Sprite {
     private final Vector2 v;
     private final Vector2 v0;
 
-    private final float RATE_OF_FIRE = 0.1f;
+    private final float RATE_OF_FIRE = 0.15f;
     private float waitingForShooting = 1;
 
     private Rect worldBounds;
@@ -160,5 +160,6 @@ public class MainShip extends Sprite {
     private void shoot() {
         Bullet bullet = bulletPool.obtain();
         bullet.set(this, bulletRegion, pos, bulletV, 0.01f, worldBounds, 1);
+        bullet.playSound();
     }
 }
