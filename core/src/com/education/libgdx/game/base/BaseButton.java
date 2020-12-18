@@ -1,10 +1,11 @@
 package com.education.libgdx.game.base;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class BaseButton extends Sprite {
-
     private static final float SCALE = 0.9f;
 
     private int pointer;
