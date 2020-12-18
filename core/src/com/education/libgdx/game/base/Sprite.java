@@ -11,6 +11,12 @@ public class Sprite extends Rect {
     private TextureRegion[] regions;
     private int frame;
 
+    public Sprite(TextureRegion region1, int frame) {
+        regions = new TextureRegion[2];
+        regions[0] = new TextureRegion(region1, 0, 0, region1.getRegionWidth() / 2, region1.getRegionHeight());
+        this.frame = frame;
+    }
+
     public Sprite(TextureRegion region) {
         regions = new TextureRegion[1];
         regions[0] = region;
@@ -30,6 +36,14 @@ public class Sprite extends Rect {
 
     }
 
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         return false;
     }
@@ -38,7 +52,7 @@ public class Sprite extends Rect {
         return false;
     }
 
-    public boolean touchDragged(Vector2 touch, int pointer, int button) {
+    public boolean touchDragged(Vector2 touch, int pointer) {
         return false;
     }
 
@@ -68,4 +82,5 @@ public class Sprite extends Rect {
     public void setScale(float scale) {
         this.scale = scale;
     }
+
 }
