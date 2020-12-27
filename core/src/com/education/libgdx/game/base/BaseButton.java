@@ -28,6 +28,7 @@ public abstract class BaseButton extends Sprite {
     @Override
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         if (this.pointer != pointer || !pressed) {
+            System.out.println("1");
             return false;
         }
         pressed = false;
