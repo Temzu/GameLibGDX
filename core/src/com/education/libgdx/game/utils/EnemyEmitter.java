@@ -51,6 +51,8 @@ public class EnemyEmitter {
 
     private float generateTimer;
 
+    private int level = 1;
+
     public EnemyEmitter(TextureAtlas atlas, Rect worldBounds, Sound bulletSound, EnemyPool enemyPool) {
         this.bulletRegion = atlas.findRegion("bulletEnemy");
         TextureRegion enemySmallRegion = atlas.findRegion("enemy0");
@@ -64,7 +66,8 @@ public class EnemyEmitter {
         this.enemyPool = enemyPool;
     }
 
-    public void generate(float delta) {
+    public void generate(float delta, int frags) {
+        level = frags / 10 + 1;
         generateTimer += delta;
         if (generateTimer >= GENERATE_INTERVAL) {
             generateTimer = 0f;
@@ -77,7 +80,7 @@ public class EnemyEmitter {
                         bulletSound,
                         ENEMY_SMALL_BULLET_HEIGHT,
                         enemySmallBulletV,
-                        ENEMY_SMALL_BULLET_DAMAGE,
+                        ENEMY_SMALL_BULLET_DAMAGE * level,
                         ENEMY_SMALL_HP,
                         ENEMY_SMALL_RELOAD_INTERVAL,
                         enemySmallV,
@@ -90,7 +93,7 @@ public class EnemyEmitter {
                         bulletSound,
                         ENEMY_MIDDLE_BULLET_HEIGHT,
                         enemyMiddleBulletV,
-                        ENEMY_MIDDLE_BULLET_DAMAGE,
+                        ENEMY_MIDDLE_BULLET_DAMAGE * level,
                         ENEMY_MIDDLE_HP,
                         ENEMY_MIDDLE_RELOAD_INTERVAL,
                         enemyMiddleV,
@@ -103,15 +106,19 @@ public class EnemyEmitter {
                         bulletSound,
                         ENEMY_BIG_BULLET_HEIGHT,
                         enemyBigBulletV,
-                        ENEMY_BIG_BULLET_DAMAGE,
+                        ENEMY_BIG_BULLET_DAMAGE * level,
                         ENEMY_BIG_HP,
                         ENEMY_BIG_RELOAD_INTERVAL,
                         enemyBigV,
                         ENEMY_BIG_HEIGHT
                 );
             }
-            enemy.pos.x = Rnd.nextFloat(worldBounds.getLeft() - enemy.getHalfWidth(), worldBounds.getRight() + enemy.getHalfWidth());
+            enemy.pos.x = Rnd.nextFloat(worldBounds.getLeft() + enemy.getHalfWidth(), worldBounds.getRight() - enemy.getHalfWidth());
             enemy.setBottom(worldBounds.getTop());
         }
+    }
+
+    public int getLevel() {
+        return level;
     }
 }

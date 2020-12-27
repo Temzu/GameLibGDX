@@ -14,7 +14,7 @@ import com.education.libgdx.game.pool.ExplosionPool;
 
 public class MainShip extends Ship {
 
-    private static final int HP = 1;
+    private static final int HP = 100;
     private static final float RELOAD_INTERVAL = 0.2f;
 
     private static final float HEIGHT = 0.15f;
@@ -153,6 +153,7 @@ public class MainShip extends Ship {
 
     public void startNewGame() {
         flushDestroy();
+        stop();
         frame = 0;
         pressedRight = false;
         pressedLeft = false;
@@ -162,6 +163,8 @@ public class MainShip extends Ship {
         hp = HP;
         damageAnimateTimer = DAMAGE_ANIMATE_INTERVAL;
     }
+
+
 
     private void moveLeft() {
         v.set(v0).rotate(180);

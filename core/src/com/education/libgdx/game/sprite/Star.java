@@ -11,7 +11,7 @@ public class Star extends Sprite {
     private static final float MIN_HEIGHT = 0.005f;
     private static final float MAX_HEIGHT = 0.011f;
 
-    private final Vector2 v;
+    protected final Vector2 v;
     private Rect worldBounds;
 
     public Star(TextureAtlas atlas) {
@@ -33,9 +33,7 @@ public class Star extends Sprite {
     @Override
     public void update(float delta) {
         pos.mulAdd(v, delta);
-        if (getRight() < worldBounds.getLeft()) setLeft(worldBounds.getRight());
-        if (getLeft() > worldBounds.getRight()) setRight(worldBounds.getLeft());
-        if (getTop() < worldBounds.getBottom()) setBottom(worldBounds.getTop());
+        checkBounds();
         changeHeight();
     }
 
@@ -45,5 +43,11 @@ public class Star extends Sprite {
             height = MIN_HEIGHT;
         }
         setHeightProportion(height);
+    }
+
+    protected void checkBounds() {
+        if (getRight() < worldBounds.getLeft()) setLeft(worldBounds.getRight());
+        if (getLeft() > worldBounds.getRight()) setRight(worldBounds.getLeft());
+        if (getTop() < worldBounds.getBottom()) setBottom(worldBounds.getTop());
     }
 }
