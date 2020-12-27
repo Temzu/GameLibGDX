@@ -14,6 +14,7 @@ import com.education.libgdx.game.pool.EnemyPool;
 import com.education.libgdx.game.pool.ExplosionPool;
 import com.education.libgdx.game.sprite.Background;
 import com.education.libgdx.game.sprite.Bullet;
+import com.education.libgdx.game.sprite.ButtonNewGame;
 import com.education.libgdx.game.sprite.Enemy;
 import com.education.libgdx.game.sprite.GameOver;
 import com.education.libgdx.game.sprite.MainShip;
@@ -49,6 +50,7 @@ public class GameScreen extends BaseScreen {
     private State state;
 
     private GameOver gameOver;
+    private ButtonNewGame btnNewGame;
 
     @Override
     public void show() {
@@ -61,6 +63,7 @@ public class GameScreen extends BaseScreen {
             stars[i] = new Star(atlas);
         }
         bulletPool = new BulletPool();
+        btnNewGame = new ButtonNewGame(atlas, this);
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"));
         explosionPool = new ExplosionPool(atlas, explosionSound);
         enemyPool = new EnemyPool(bulletPool, explosionPool, worldBounds);
@@ -92,6 +95,7 @@ public class GameScreen extends BaseScreen {
         }
         mainShip.resize(worldBounds);
         gameOver.resize(worldBounds);
+        btnNewGame.resize(worldBounds);
     }
 
     @Override
@@ -128,6 +132,8 @@ public class GameScreen extends BaseScreen {
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING) {
             mainShip.touchDown(touch, pointer, button);
+        }  else if (state == State.GAME_OVER) {
+            btnNewGame.touchDown(touch, pointer, button);
         }
         return false;
     }
@@ -136,6 +142,8 @@ public class GameScreen extends BaseScreen {
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING) {
             mainShip.touchUp(touch, pointer, button);
+        } else if (state == State.GAME_OVER) {
+            btnNewGame.touchUp(touch, pointer, button);
         }
         return false;
     }
@@ -151,6 +159,14 @@ public class GameScreen extends BaseScreen {
             mainShip.update(delta);
             enemyEmitter.generate(delta);
         }
+    }
+
+    public void startNewGame() {
+        mainShip.startNewGame();
+        enemyPool.startNewGame();
+        bulletPool.startNewGame();
+        explosionPool.startNewGame();
+        state = State.PLAYING;
     }
 
     private void checkCollision() {
@@ -203,8 +219,11 @@ public class GameScreen extends BaseScreen {
             mainShip.draw(batch);
         } else if (state == State.GAME_OVER) {
             gameOver.draw(batch);
+            btnNewGame.draw(batch);
         }
         explosionPool.drawActiveObjects(batch);
         batch.end();
     }
+
+
 }
