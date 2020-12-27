@@ -15,6 +15,8 @@ public abstract class Ship extends Sprite {
     protected float bulletHeight;
     protected int damage;
     protected int hp;
+    protected Vector2 multiplySpeed;
+    private boolean isFirstShoot = true;
 
     protected Vector2 v;
     protected Vector2 v0;
@@ -37,11 +39,16 @@ public abstract class Ship extends Sprite {
 
     @Override
     public void update(float delta) {
-        pos.mulAdd(v, delta);
+        if (!(getTop() > worldBounds.getTop())) {
+            pos.mulAdd(v, delta);
+        } else {
+            pos.mulAdd(multiplySpeed, delta);
+        }
         reloadTimer += delta;
-        if (reloadTimer >= reloadInterval) {
+        if (reloadTimer >= reloadInterval && !(getTop() > worldBounds.getTop()) || !(getTop() > worldBounds.getTop()) && isFirstShoot) {
             reloadTimer = 0f;
             shoot();
+            isFirstShoot = false;
         }
     }
 
